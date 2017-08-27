@@ -11,9 +11,17 @@
     <div class="panel-body">
       <form class="form-inline">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Quantity">
+          <input
+          type="number"
+          class="form-control"
+          placeholder="Quantity"
+          v-model="quantity"
+          >
         </div>
-        <button class="btn btn-default btn-danger">Sell</button>
+        <button class="btn btn-default btn-default"
+          :class="{ 'btn-danger': !invalidQuantity}"
+          :disabled="invalidQuantity"
+          @click.prevent="sellStock(stock)">Sell</button>
       </form>
     </div>
   </div>
@@ -21,10 +29,29 @@
 
 <script>
 export default {
+  data() {
+    return {
+      quantity: null
+    }
+  },
+  computed: {
+    invalidQuantity() {
+      return(this.quantity <= 0 || this.quantity > this.stock.quantity)
+    }
+  },
   props: {
     stock: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    sellStock(stock) {
+      this.$store.dispatch('sellStock', {
+        stock,
+        quantity: this.quantity
+      })
+      this.quantity = null
     }
   }
 }
