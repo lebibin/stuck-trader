@@ -2,18 +2,30 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Stuck Trader</a>
+        <router-link to="home" class="navbar-brand">
+          Stuck Trader
+        </router-link>
       </div>
       <ul class="nav navbar-nav">
-        <li><a href="#">Portfolio</a></li>
-        <li><a href="#">Stocks</a></li>
+        <li>
+          <router-link to="portfolio">
+            Portfolio
+          </router-link>
+        </li>
+        <li>
+          <router-link to="stocks">
+            Stocks
+          </router-link>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">End Day</a></li>
+        <li>
+          <a href="#" @click="endDay">End Day</a>
+        </li>
         <li class="dropdown" :class="{open: showDropdown}">
           <a class="dropdown-toggle" @click="toggleDropdown" href="#">
             Save & Load
-            </a>
+          </a>
           <ul class="dropdown-menu">
             <li><a href="#" @click="saveProgress">Save</a></li>
             <li><a href="#" @click="loadProgress">Load</a></li>
@@ -35,6 +47,9 @@ export default {
   methods: {
     toggleDropdown() {
       this.showDropdown = !this.showDropdown
+    },
+    endDay() {
+      console.log("# TODO : Implement end day!")
     },
     saveProgress() {
       console.log("# TODO : Implement save progress!")
