@@ -12,14 +12,9 @@
 <script>
 import Stock from './Stock.vue'
 export default {
-  data() {
-    return {
-      stocks: [
-        { name: 'BMW', price: 100, quantity: 10 },
-        { name: 'Google', price: 200, quantity: 100 },
-        { name: 'Apple', price: 300, quantity: 200 },
-        { name: 'Twitter', price: 20, quantity: 150 },
-      ]
+  computed: {
+    stocks() {
+      return this.$store.getters.portfolio
     }
   },
   components: {

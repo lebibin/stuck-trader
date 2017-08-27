@@ -8,7 +8,7 @@
       </ul>
       <hr>
       <p class='funds'>
-        Your Funds: $10.000
+        Your Funds: ${{ funds  }}
       </p>
     </div>
   </div>
@@ -22,6 +22,11 @@ export default {
         'You may <em>save</em> or <em>load</em> your data.',
         'Click on <strong>End Day</strong> to begin a new day!'
       ]
+    }
+  },
+  computed: {
+    funds() {
+      return this.$store.getters.funds
     }
   }
 }

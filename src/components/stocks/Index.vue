@@ -12,18 +12,9 @@
 <script>
 import Stock from './Stock.vue'
 export default {
-  data() {
-    return {
-      stocks: [
-        { name: 'BMW', price: 100 },
-        { name: 'Google', price: 200 },
-        { name: 'Apple', price: 300 },
-        { name: 'Twitter', price: 10 },
-        { name: 'Facebook', price: 0 },
-        { name: 'Snapchat', price: 50 },
-        { name: 'Amazon', price: 150 },
-        { name: 'Netflix', price: 50 },
-      ]
+  computed: {
+    stocks() {
+      return this.$store.getters.stocks
     }
   },
   components: {

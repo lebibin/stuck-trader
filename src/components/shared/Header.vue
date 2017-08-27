@@ -7,16 +7,24 @@
         </router-link>
       </div>
       <ul class="nav navbar-nav">
-        <li>
-          <router-link to="portfolio">
+        <router-link
+          tag="li"
+          to="portfolio"
+          active-class="active"
+          >
+          <a href="#">
             Portfolio
-          </router-link>
-        </li>
-        <li>
-          <router-link to="stocks">
+          </a>
+        </router-link>
+        <router-link
+          tag="li"
+          to="stocks"
+          active-class="active"
+          >
+          <a href="#">
             Stocks
-          </router-link>
-        </li>
+          </a>
+        </router-link>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -31,7 +39,7 @@
             <li><a href="#" @click="loadProgress">Load</a></li>
           </ul>
         </li>
-        <li><a href="#"><strong>Funds: $10.000</strong></a></li>
+        <li><a href="#"><strong>Funds: ${{ funds }}</strong></a></li>
       </ul>
     </div>
   </nav>
@@ -42,6 +50,11 @@ export default {
   data() {
     return {
       showDropdown: false
+    }
+  },
+  computed: {
+    funds() {
+      return this.$store.getters.funds
     }
   },
   methods: {
