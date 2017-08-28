@@ -62,7 +62,7 @@ export default {
       this.showDropdown = !this.showDropdown
     },
     endDay() {
-      console.log("# TODO : Implement end day!")
+      this.$store.dispatch('endDay')
     },
     saveProgress() {
       console.log("# TODO : Implement save progress!")
