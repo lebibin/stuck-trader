@@ -107,6 +107,20 @@ export const store = new Vuex.Store({
       })
       state.stocks = newStocks
       state.day += 1
+    },
+    saveProgress(state, payload) {
+      let storage = window.localStorage
+      storage.setItem('day', state.day)
+      storage.setItem('funds', state.funds)
+      storage.setItem('stocks', JSON.stringify(state.stocks))
+      storage.setItem('portfolio', JSON.stringify(state.portfolio))
+    },
+    loadProgress(state, payload) {
+      let storage = window.localStorage
+      state.day = Number(storage.getItem('day'))
+      state.funds = Number(storage.getItem('funds'))
+      state.stocks = JSON.parse(storage.getItem('stocks'))
+      state.portfolio = JSON.parse(storage.getItem('portfolio'))
     }
   },
   actions: {
@@ -118,6 +132,12 @@ export const store = new Vuex.Store({
     },
     endDay({ commit }, payload) {
       commit('endDay', payload)
+    },
+    saveProgress({ commit }, payload) {
+      commit('saveProgress', payload)
+    },
+    loadProgress({ commit }, payload) {
+      commit('loadProgress', payload)
     }
   }
 })

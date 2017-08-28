@@ -70,11 +70,11 @@ export default {
       this.$store.dispatch('endDay')
     },
     saveProgress() {
-      console.log("# TODO : Implement save progress!")
+      this.$store.dispatch('saveProgress')
       this.toggleDropdown();
     },
     loadProgress() {
-      console.log("# TODO : Implement load progress!")
+      this.$store.dispatch('loadProgress')
       this.toggleDropdown();
     }
   }
