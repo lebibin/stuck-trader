@@ -48,7 +48,7 @@ export default {
   methods: {
     sellStock(stock) {
       this.$store.dispatch('sellStock', {
-        stock,
+        stock_id: stock.id,
         quantity: this.quantity
       })
       this.quantity = null

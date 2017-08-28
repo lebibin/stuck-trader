@@ -5,21 +5,21 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    funds: 100.000,
+    funds: 10.000,
     stocks: [
-      { name: 'BMW', price: 100 },
-      { name: 'Google', price: 200 },
-      { name: 'Apple', price: 300 },
-      { name: 'Twitter', price: 10 },
-      { name: 'Facebook', price: 1 },
-      { name: 'Snapchat', price: 50 },
-      { name: 'Amazon', price: 150 },
-      { name: 'Netflix', price: 50 },
-      { name: 'Instagram', price: 0 },
-      { name: 'Grab', price: 99 }
+      { id: 1, name: 'BMW', price: 100 },
+      { id: 2, name: 'Google', price: 200 },
+      { id: 3, name: 'Apple', price: 300 },
+      { id: 4, name: 'Twitter', price: 10 },
+      { id: 5, name: 'Facebook', price: 1 },
+      { id: 6, name: 'Snapchat', price: 50 },
+      { id: 7, name: 'Amazon', price: 150 },
+      { id: 8, name: 'Netflix', price: 50 },
+      { id: 9, name: 'Instagram', price: 110 },
+      { id: 10, name: 'Grab', price: 99 }
     ],
     portfolio: [
-      { name: 'Grab', price: 99, quantity: 1000 }
+      { stock_id: 10, quantity: 1000 }
     ]
   },
   getters: {
@@ -30,60 +30,58 @@ export const store = new Vuex.Store({
       return state.stocks
     },
     portfolio(state) {
-      return state.portfolio
+      let portfolio = []
+      state.portfolio.forEach((p) => {
+        let stock = state.stocks.find((s) => {
+          return (s.id === p.stock_id)
+        })
+        if (stock) {
+          portfolio.push(Object.assign({}, stock, {quantity: p.quantity}))
+        }
+      })
+      return portfolio;
     }
   },
   mutations: {
     buyStock(state, payload) {
-      let selectedPortfolioIndex = -1;
-      let price = payload.stock.price
-      let quantity = Number(payload.quantity)
-      for(let i = 0; i < state.portfolio.length; i++) {
-        let stock = state.portfolio[i]
-        if (stock.name === payload.stock.name) {
-          selectedPortfolioIndex = i
-          break
-        }
-      }
-      let stock = {
-        name: payload.stock.name,
-        price: payload.stock.price,
-        quantity
-      }
-      if (selectedPortfolioIndex >= 0) {
-        let currentQuantity = Number(state.portfolio[selectedPortfolioIndex].quantity)
-        stock.quantity = quantity + currentQuantity
-        state.portfolio.splice(selectedPortfolioIndex, 1, stock)
+      let stock = state.stocks.find((s) => {
+        return s.id == payload.stock_id
+      })
+      let price = Number(stock.price)
+      let quantity = payload.quantity
+      let portfolioIndex = state.portfolio.findIndex((p) => {
+        return p.stock_id === payload.stock_id
+      })
+
+      if (portfolioIndex > -1) {
+        let portfolio = state.portfolio[portfolioIndex]
+        quantity += portfolio.quantity
       } else {
-        state.portfolio.push(stock)
+        portfolioIndex = state.portfolio.length
       }
-      state.funds -= (price * quantity) / 1000
+
+      state.funds -= (price * payload.quantity) / 1000
+      state.portfolio.splice(portfolioIndex, 1, {
+        stock_id: payload.stock_id,
+        quantity
+      })
     },
     sellStock(state, payload) {
-      let selectedPortfolioIndex = -1;
-      let price = payload.stock.price
-      let quantity = Number(payload.quantity)
-      for(let i = 0; i < state.portfolio.length; i++) {
-        let stock = state.portfolio[i]
-        if (stock.name === payload.stock.name) {
-          selectedPortfolioIndex = i
-          break
-        }
-      }
-      if (selectedPortfolioIndex >= 0) {
-        let currentQuantity = Number(state.portfolio[selectedPortfolioIndex].quantity)
-        let updatedQuantity = currentQuantity - quantity;
-        if (updatedQuantity > 0) {
-          state.portfolio.splice(selectedPortfolioIndex, 1, {
-            name: payload.stock.name,
-            price: payload.stock.price,
-            quantity: updatedQuantity
-          })
-        } else {
-          state.portfolio.splice(selectedPortfolioIndex, 1)
-        }
-      }
-      state.funds += (price * quantity) / 1000
+      let stock = state.stocks.find((s) => {
+        return s.id == payload.stock_id
+      })
+      let price = Number(stock.price)
+
+      let portfolioIndex = state.portfolio.findIndex((p) => {
+        return p.stock_id === payload.stock_id
+      })
+      let quantity = state.portfolio[portfolioIndex].quantity - payload.quantity
+
+      state.funds += (price * payload.quantity) / 1000
+      state.portfolio.splice(portfolioIndex, 1, { 
+        stock_id: payload.stock_id,
+        quantity
+      })
     }
   },
   actions: {
