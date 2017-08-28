@@ -28,7 +28,9 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a href="#" @click="endDay">End Day</a>
+          <a href="#" @click="endDay">
+            {{ day  }}
+          </a>
         </li>
         <li class="dropdown" :class="{open: showDropdown}">
           <a class="dropdown-toggle" @click="toggleDropdown" href="#">
@@ -55,6 +57,9 @@ export default {
   computed: {
     funds() {
       return this.$store.getters.funds
+    },
+    day() {
+      return "End Day #" + this.$store.getters.day
     }
   },
   methods: {

@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
+    day: 1,
     funds: 10.000,
     stocks: [
       { id: 1, name: 'BMW', price: 100 },
@@ -23,6 +24,9 @@ export const store = new Vuex.Store({
     ]
   },
   getters: {
+    day(state) {
+      return state.day
+    },
     funds(state) {
       return state.funds.toFixed(3)
     },
@@ -102,6 +106,7 @@ export const store = new Vuex.Store({
         })
       })
       state.stocks = newStocks
+      state.day += 1
     }
   },
   actions: {
